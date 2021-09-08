@@ -1,0 +1,84 @@
+<template>
+  <div class="content-center">
+    <form @submit.prevent="submit" action="" class="padding-top-bottom">
+      <input
+        class="form-control width"
+        type="email"
+        v-model="email"
+        placeholder="Email"
+      /><br />
+      <input
+        class="form-control width"
+        type="name"
+        v-model="name"
+        placeholder="Name"
+      /><br />
+      <input
+        class="form-control width"
+        type="password"
+        v-model="password"
+        placeholder="Password"
+      /><br />
+      <button class="button">Register</button>
+    </form>
+  </div>
+</template>
+<script>
+import Axios from "axios";
+export default {
+  data() {
+    return {
+      email: "",
+      name: "",
+      password: "",
+    };
+  },
+
+  // async beforeMount(){
+  //     let res = await Axios.post('http://127.0.0.1:8000/api/user-details')
+  //     let details = res.data
+  //     console.log(details)
+  // },
+  methods: {
+    async submit() {
+      let regData = {
+        name: this.name,
+        email: this.email,
+        password: this.password,
+      };
+      let res = await Axios.post(
+        "http://127.0.0.1:8000/api/user-register",
+        regData
+      );
+      if (res.data.success) {
+        this.$router.push({ name: "login-page" });
+      } else {
+        // res.data.message;
+        console.log(res.data.message);
+      }
+    },
+  },
+};
+</script>
+<style>
+.content-center {
+  align-items: center;
+  justify-content: center;
+  padding-left: 35%;
+}
+
+.width {
+  width: 40%;
+}
+
+.padding-top-bottom {
+  padding-top: 17%;
+  padding-bottom: 40%;
+}
+
+.button {
+  width: 70px;
+  background: transparent;
+  border-radius: 10px;
+}
+</style>
